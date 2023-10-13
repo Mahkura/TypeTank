@@ -31,6 +31,8 @@ workspace {
 
         s_ecs -> s_logic
         s_ecs -> s_net
+
+        c_net -> s_net
     }
 
     views {

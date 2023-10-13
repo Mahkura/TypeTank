@@ -1,1 +1,6 @@
+build
+
 doc/architecture/.structurizr
+
+client/vendored
+client/build
