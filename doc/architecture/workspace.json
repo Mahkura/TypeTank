@@ -2,10 +2,10 @@
   "id" : 1,
   "name" : "Name",
   "description" : "Description",
-  "lastModifiedDate" : "2023-10-03T12:44:58Z",
+  "lastModifiedDate" : "2023-10-13T08:37:30Z",
   "lastModifiedAgent" : "structurizr-javascript",
   "properties" : {
-    "structurizr.dsl" : "d29ya3NwYWNlIHsNCg0KICAgIG1vZGVsIHsNCiAgICAgICAgdXNlciA9IHBlcnNvbiAiVXNlciINCiAgICAgICAgc29mdHdhcmVTeXN0ZW0gPSBzb2Z0d2FyZVN5c3RlbSAiU29mdHdhcmUgU3lzdGVtIg0KDQogICAgICAgIHVzZXIgLT4gc29mdHdhcmVTeXN0ZW0gIlVzZXMiDQogICAgfQ0KDQogICAgdmlld3Mgew0KICAgICAgICBzeXN0ZW1Db250ZXh0IHNvZnR3YXJlU3lzdGVtICJEaWFncmFtMSIgew0KICAgICAgICAgICAgaW5jbHVkZSAqDQogICAgICAgIH0NCiAgICB9DQoNCn0NCg=="
+    "structurizr.dsl" : "d29ya3NwYWNlIHsNCg0KICAgIG1vZGVsIHsNCiAgICAgICAgdXNlciA9IHBlcnNvbiAiVXNlciINCiAgICAgICAgZ2FtZSA9IHNvZnR3YXJlU3lzdGVtICJUeXBlVGFuayBnYW1lIiB7DQogICAgICAgICAgICBjbGllbnQgPSBjb250YWluZXIgIkdhbWUgY2xpZW50IiB7DQogICAgICAgICAgICAgICAgZ3JhcGhpY3MgPSBjb21wb25lbnQgIkdyYXBoaWNzIg0KICAgICAgICAgICAgICAgIGNfbmV0ID0gY29tcG9uZW50ICJDb21tdW5pY2F0aW9uIg0KICAgICAgICAgICAgICAgIGNfbG9naWMgPSBjb21wb25lbnQgIlNjcmlwdFBhcnNlciINCiAgICAgICAgICAgICAgICBjX2ZpbGVfaW8gPSBjb21wb25lbnQgIkZpbGUgSU8iDQogICAgICAgICAgICAgICAgY19lY3MgPSBjb21wb25lbnQgIkVudGl0eUNvbXBvbmVudFN5c3RlbSINCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIHNlcnZlciA9IGNvbnRhaW5lciAiR2FtZSBzZXJ2ZXIiIHsNCiAgICAgICAgICAgICAgICBzX25ldCA9IGNvbXBvbmVudCAiQ29tbXVuaWNhdGlvbiINCiAgICAgICAgICAgICAgICBzX2xvZ2ljID0gY29tcG9uZW50ICJHYW1lIGxvZ2ljIg0KICAgICAgICAgICAgICAgIHNfZWNzID0gY29tcG9uZW50ICJFbnRpdHlDb21wb25lbnRTeXN0ZW0iDQogICAgICAgICAgICB9DQogICAgICAgIH0NCiAgICAgICAgdHh0X2VkaXRvciA9IHNvZnR3YXJlU3lzdGVtICJUZXh0IGVkaXRvciIgew0KICAgICAgICAgICAgdGFncyAiRXh0ZXJuYWwgU29mdHdhcmUgU3lzdGVtIg0KICAgICAgICB9DQoNCiAgICAgICAgdXNlciAtPiBjbGllbnQgIlZpZXdzIg0KICAgICAgICB1c2VyIC0+IHR4dF9lZGl0b3IgIk1vZGlmaWVzIHNjcmlwdCBmaWxlIg0KICAgICAgICB0eHRfZWRpdG9yIC0+IGNsaWVudCAiR2l2ZXMgaW5zdHJ1Y3Rpb25zIHZpYSBzYXZlZCBzY3JpcHQgZmlsZSINCiAgICAgICAgY2xpZW50IC0+IHNlcnZlciAiQ29tbXVuaWNhdGVzIHdpdGgiDQogICAgICAgIGNfZWNzIC0+IGNfbmV0DQogICAgICAgIGNfZWNzIC0+IGdyYXBoaWNzDQogICAgICAgIGNfZWNzIC0+IGNfbG9naWMNCiAgICAgICAgY19sb2dpYyAtPiBjX2ZpbGVfaW8NCg0KICAgICAgICBzX2VjcyAtPiBzX2xvZ2ljDQogICAgICAgIHNfZWNzIC0+IHNfbmV0DQogICAgfQ0KDQogICAgdmlld3Mgew0KICAgICAgICB0aGVtZSBkZWZhdWx0DQogICAgICAgIHN0eWxlcyB7DQogICAgICAgICAgICBlbGVtZW50ICJFeHRlcm5hbCBTb2Z0d2FyZSBTeXN0ZW0iIHsNCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNhYWFhYWENCiAgICAgICAgICAgICAgICBzaGFwZSBSb3VuZGVkQm94DQogICAgICAgICAgICB9DQogICAgICAgIH0NCg0KICAgICAgICBzeXN0ZW1Db250ZXh0IGdhbWUgIkRpYWdyYW0xIiB7DQogICAgICAgICAgICBpbmNsdWRlICoNCiAgICAgICAgICAgIGF1dG9MYXlvdXQgbHINCiAgICAgICAgfQ0KDQogICAgICAgIGNvbnRhaW5lciBnYW1lIHsNCiAgICAgICAgICAgIGluY2x1ZGUgdXNlciB0eHRfZWRpdG9yIGNsaWVudCBzZXJ2ZXINCiAgICAgICAgICAgIGF1dG9MYXlvdXQgbHINCiAgICAgICAgfQ0KDQogICAgICAgIGNvbXBvbmVudCBjbGllbnQgew0KICAgICAgICAgICAgaW5jbHVkZSAqDQogICAgICAgICAgICBhdXRvTGF5b3V0IGxyDQogICAgICAgIH0NCg0KICAgICAgICBjb21wb25lbnQgc2VydmVyIHsNCiAgICAgICAgICAgIGluY2x1ZGUgKg0KICAgICAgICAgICAgYXV0b0xheW91dCBscg0KICAgICAgICB9DQp9DQo="
   },
   "configuration" : { },
   "model" : {
@@ -17,25 +17,209 @@
       },
       "name" : "User",
       "relationships" : [ {
-        "id" : "3",
+        "id" : "14",
         "tags" : "Relationship",
         "properties" : {
-          "structurizr.dsl.identifier" : "14ac28f2-2447-4f3b-8e8e-506ae732046c"
+          "structurizr.dsl.identifier" : "37956b76-d9c1-4358-81cb-56ebf4ec0cd5"
         },
         "sourceId" : "1",
+        "destinationId" : "3",
+        "description" : "Views"
+      }, {
+        "id" : "16",
+        "tags" : "Relationship",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ba35fcbb-8cd6-44ae-9b0c-76c3cafe47d4"
+        },
+        "sourceId" : "1",
+        "destinationId" : "13",
+        "description" : "Modifies script file"
+      }, {
+        "id" : "15",
+        "sourceId" : "1",
         "destinationId" : "2",
-        "description" : "Uses"
+        "description" : "Views",
+        "linkedRelationshipId" : "14"
       } ],
       "location" : "Unspecified"
     } ],
     "softwareSystems" : [ {
+      "id" : "13",
+      "tags" : "Element,Software System,External Software System",
+      "properties" : {
+        "structurizr.dsl.identifier" : "txt_editor"
+      },
+      "name" : "Text editor",
+      "relationships" : [ {
+        "id" : "17",
+        "tags" : "Relationship",
+        "properties" : {
+          "structurizr.dsl.identifier" : "22b24fb1-2943-4468-b5ae-c8f860e962fb"
+        },
+        "sourceId" : "13",
+        "destinationId" : "3",
+        "description" : "Gives instructions via saved script file"
+      }, {
+        "id" : "18",
+        "sourceId" : "13",
+        "destinationId" : "2",
+        "description" : "Gives instructions via saved script file",
+        "linkedRelationshipId" : "17"
+      } ],
+      "location" : "Unspecified",
+      "documentation" : { }
+    }, {
       "id" : "2",
       "tags" : "Element,Software System",
       "properties" : {
-        "structurizr.dsl.identifier" : "softwaresystem"
+        "structurizr.dsl.identifier" : "game"
       },
-      "name" : "Software System",
+      "name" : "TypeTank game",
       "location" : "Unspecified",
+      "containers" : [ {
+        "id" : "3",
+        "tags" : "Element,Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "client"
+        },
+        "name" : "Game client",
+        "relationships" : [ {
+          "id" : "19",
+          "tags" : "Relationship",
+          "properties" : {
+            "structurizr.dsl.identifier" : "84eb5f29-b8b3-4364-81e1-2d9d68bb224f"
+          },
+          "sourceId" : "3",
+          "destinationId" : "9",
+          "description" : "Communicates with"
+        } ],
+        "components" : [ {
+          "id" : "5",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "c_net"
+          },
+          "name" : "Communication",
+          "documentation" : { }
+        }, {
+          "id" : "8",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "c_ecs"
+          },
+          "name" : "EntityComponentSystem",
+          "relationships" : [ {
+            "id" : "20",
+            "tags" : "Relationship",
+            "properties" : {
+              "structurizr.dsl.identifier" : "ca2feb51-61b6-40a0-8d44-52effd97d9e8"
+            },
+            "sourceId" : "8",
+            "destinationId" : "5"
+          }, {
+            "id" : "22",
+            "tags" : "Relationship",
+            "properties" : {
+              "structurizr.dsl.identifier" : "f122cd13-e789-4eff-bead-e5c43ae54ac0"
+            },
+            "sourceId" : "8",
+            "destinationId" : "6"
+          }, {
+            "id" : "21",
+            "tags" : "Relationship",
+            "properties" : {
+              "structurizr.dsl.identifier" : "b7ded99f-d043-474b-87d4-5715c0a708f7"
+            },
+            "sourceId" : "8",
+            "destinationId" : "4"
+          } ],
+          "documentation" : { }
+        }, {
+          "id" : "7",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "c_file_io"
+          },
+          "name" : "File IO",
+          "documentation" : { }
+        }, {
+          "id" : "4",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "graphics"
+          },
+          "name" : "Graphics",
+          "documentation" : { }
+        }, {
+          "id" : "6",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "c_logic"
+          },
+          "name" : "ScriptParser",
+          "relationships" : [ {
+            "id" : "23",
+            "tags" : "Relationship",
+            "properties" : {
+              "structurizr.dsl.identifier" : "22b777a2-3751-403f-a0e8-0714fb2f2fe9"
+            },
+            "sourceId" : "6",
+            "destinationId" : "7"
+          } ],
+          "documentation" : { }
+        } ],
+        "documentation" : { }
+      }, {
+        "id" : "9",
+        "tags" : "Element,Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "server"
+        },
+        "name" : "Game server",
+        "components" : [ {
+          "id" : "11",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "s_logic"
+          },
+          "name" : "Game logic",
+          "documentation" : { }
+        }, {
+          "id" : "10",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "s_net"
+          },
+          "name" : "Communication",
+          "documentation" : { }
+        }, {
+          "id" : "12",
+          "tags" : "Element,Component",
+          "properties" : {
+            "structurizr.dsl.identifier" : "s_ecs"
+          },
+          "name" : "EntityComponentSystem",
+          "relationships" : [ {
+            "id" : "24",
+            "tags" : "Relationship",
+            "properties" : {
+              "structurizr.dsl.identifier" : "15793e50-7c6c-4fd9-b69f-9b73aa7097cf"
+            },
+            "sourceId" : "12",
+            "destinationId" : "11"
+          }, {
+            "id" : "25",
+            "tags" : "Relationship",
+            "properties" : {
+              "structurizr.dsl.identifier" : "55c235fc-23e0-4220-a693-59f04c0bc5a8"
+            },
+            "sourceId" : "12",
+            "destinationId" : "10"
+          } ],
+          "documentation" : { }
+        } ],
+        "documentation" : { }
+      } ],
       "documentation" : { }
     } ]
   },
@@ -47,29 +231,181 @@
       "softwareSystemId" : "2",
       "paperSize" : "A5_Landscape",
       "dimensions" : {
-        "width" : 2480,
-        "height" : 1748
+        "width" : 2316,
+        "height" : 1070
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
       },
       "enterpriseBoundaryVisible" : true,
       "elements" : [ {
         "id" : "1",
-        "x" : 0,
-        "y" : 0
+        "x" : 208,
+        "y" : 462
       }, {
         "id" : "2",
-        "x" : 1015,
-        "y" : 724
+        "x" : 1658,
+        "y" : 512
+      }, {
+        "id" : "13",
+        "x" : 908,
+        "y" : 208
       } ],
       "relationships" : [ {
-        "id" : "3"
+        "id" : "18"
+      }, {
+        "id" : "16"
+      }, {
+        "id" : "15"
+      } ]
+    } ],
+    "containerViews" : [ {
+      "key" : "Container-001",
+      "order" : 2,
+      "softwareSystemId" : "2",
+      "paperSize" : "A4_Landscape",
+      "dimensions" : {
+        "width" : 3170,
+        "height" : 1125
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
+      },
+      "externalSoftwareSystemBoundariesVisible" : true,
+      "elements" : [ {
+        "id" : "1",
+        "x" : 208,
+        "y" : 462
+      }, {
+        "id" : "13",
+        "x" : 908,
+        "y" : 208
+      }, {
+        "id" : "3",
+        "x" : 1658,
+        "y" : 512
+      }, {
+        "id" : "9",
+        "x" : 2408,
+        "y" : 512
+      } ],
+      "relationships" : [ {
+        "id" : "17"
+      }, {
+        "id" : "16"
+      }, {
+        "id" : "14"
+      }, {
+        "id" : "19"
+      } ]
+    } ],
+    "componentViews" : [ {
+      "key" : "Component-002",
+      "order" : 4,
+      "paperSize" : "A5_Landscape",
+      "dimensions" : {
+        "width" : 1858,
+        "height" : 1558
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
+      },
+      "containerId" : "9",
+      "externalContainerBoundariesVisible" : true,
+      "elements" : [ {
+        "id" : "11",
+        "x" : 1079,
+        "y" : 329
+      }, {
+        "id" : "12",
+        "x" : 329,
+        "y" : 629
+      }, {
+        "id" : "10",
+        "x" : 1079,
+        "y" : 929
+      } ],
+      "relationships" : [ {
+        "id" : "25"
+      }, {
+        "id" : "24"
+      } ]
+    }, {
+      "key" : "Component-001",
+      "order" : 3,
+      "dimensions" : {
+        "width" : 2390,
+        "height" : 2011
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
+      },
+      "containerId" : "3",
+      "externalContainerBoundariesVisible" : true,
+      "elements" : [ {
+        "id" : "4",
+        "x" : 969,
+        "y" : 1419
+      }, {
+        "id" : "5",
+        "x" : 969,
+        "y" : 819
+      }, {
+        "id" : "6",
+        "x" : 969,
+        "y" : 219
+      }, {
+        "id" : "7",
+        "x" : 1719,
+        "y" : 219
+      }, {
+        "id" : "8",
+        "x" : 219,
+        "y" : 819
+      } ],
+      "relationships" : [ {
+        "id" : "23"
+      }, {
+        "id" : "22"
+      }, {
+        "id" : "21"
+      }, {
+        "id" : "20"
       } ]
     } ],
     "configuration" : {
       "branding" : { },
-      "styles" : { },
+      "styles" : {
+        "elements" : [ {
+          "tag" : "External Software System",
+          "background" : "#aaaaaa",
+          "shape" : "RoundedBox"
+        } ]
+      },
+      "themes" : [ "https://static.structurizr.com/themes/default/theme.json" ],
       "terminology" : { },
       "metadataSymbols" : "SquareBrackets",
-      "lastSavedView" : "Diagram1"
+      "lastSavedView" : "Component-001"
     }
   }
 }
