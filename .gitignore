@@ -1,6 +1,7 @@
 build
 
 doc/architecture/.structurizr
+doc/architecture/workspace.json
 
 client/vendored
 client/build
