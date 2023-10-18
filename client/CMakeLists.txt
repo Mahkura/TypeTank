@@ -23,16 +23,47 @@ else()
     find_package(SDL2_ttf REQUIRED)
 endif()
 
+add_library(tt_event STATIC
+    src/events/EventSink.cpp)
+target_compile_features(tt_event PUBLIC cxx_std_20)
+target_include_directories(tt_event PUBLIC src)
+
+add_library(tt_script STATIC
+    src/script/ScriptParser.cpp)
+target_compile_features(tt_script PUBLIC cxx_std_20)
+target_include_directories(tt_script PUBLIC src)
+target_link_libraries(tt_script PUBLIC tt_event)
+
 # TODO: define subsystems as separate libraries and link to exe, so we may create test exes for them
 add_executable(TypeTanks src/main.cpp)
+target_compile_features(TypeTanks PUBLIC cxx_std_20)
 
 if (TARGET SDL2::SDL2main)
     message(STATUS "SDL2main found")
     target_link_libraries(TypeTanks PRIVATE SDL2::SDL2main)
 endif()
 
-target_link_libraries(TypeTanks PRIVATE SDL2::SDL2 SDL2_image::SDL2_image SDL2_net::SDL2_net SDL2_ttf::SDL2_ttf)
+target_link_libraries(TypeTanks
+    PRIVATE 
+        SDL2::SDL2
+        SDL2_image::SDL2_image
+        SDL2_net::SDL2_net
+        SDL2_ttf::SDL2_ttf
+        tt_event)
 
 # TODO: see if we can copy SDL-related DLLs to build directory so we can run the executable without manually copying shared libraries
 
 # TODO: define tests
+enable_testing()
+
+add_executable(test_eventqueue tests/events/TestEventQueue.cpp)
+target_include_directories(test_eventqueue PRIVATE tests)
+target_link_libraries(test_eventqueue PRIVATE tt_event)
+
+add_test(NAME EventQueue COMMAND test_eventqueue)
+
+add_executable(test_scriptparser tests/script/TestScriptParser.cpp)
+target_include_directories(test_scriptparser PRIVATE tests)
+target_link_libraries(test_scriptparser PRIVATE tt_script)
+
+add_test(NAME ScriptParser COMMAND test_scriptparser)
