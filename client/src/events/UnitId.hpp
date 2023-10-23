@@ -20,4 +20,5 @@ struct UnitMove
     uint8_t unit_id;
     uint16_t move_amount;
 };
+
 } // namespace tt

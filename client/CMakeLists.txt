@@ -3,6 +3,9 @@ project(TypeTanks VERSION 1.0.0)
 
 option(TypeTanks_VENDORED "Use vendored libraries" OFF)
 
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 if(TypeTanks_VENDORED)
     add_subdirectory(vendored/sdl)
     set(SDL2IMAGE_VENDORED ON CACHE BOOL "Use all SDL libraries as vendored")
@@ -34,6 +37,12 @@ target_compile_features(tt_script PUBLIC cxx_std_20)
 target_include_directories(tt_script PUBLIC src)
 target_link_libraries(tt_script PUBLIC tt_event)
 
+add_library(tt_logic STATIC
+    src/logic/DummyLogic.cpp)
+target_compile_features(tt_logic PUBLIC cxx_std_20)
+target_include_directories(tt_logic PUBLIC src)
+target_link_libraries(tt_logic PUBLIC tt_event)
+
 # TODO: define subsystems as separate libraries and link to exe, so we may create test exes for them
 add_executable(TypeTanks src/main.cpp)
 target_compile_features(TypeTanks PUBLIC cxx_std_20)
@@ -49,7 +58,8 @@ target_link_libraries(TypeTanks
         SDL2_image::SDL2_image
         SDL2_net::SDL2_net
         SDL2_ttf::SDL2_ttf
-        tt_event)
+        tt_script
+        tt_logic)
 
 # TODO: see if we can copy SDL-related DLLs to build directory so we can run the executable without manually copying shared libraries
 

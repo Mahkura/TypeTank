@@ -36,7 +36,7 @@ int main(int argc, char** argv)
         auto test = Fixture{};
         test.set_script_content(R"(
             unit TankXYZ {
-                move 133m
+                move 600m
             }
         )");
 
@@ -49,11 +49,14 @@ int main(int argc, char** argv)
         test.output_queue.pop();
         auto em = std::get<tt::UnitMove>(test.output_queue.front());
         expect(em.unit_id == 0u);
-        expect(em.move_amount == 133u);
+        expect(em.move_amount == 600u);
         expect(em.type == tt::UnitMove::Meters);
     };
 
     // TODO: test that 'move' by itself does not work (unless it should? perhaps select random unit?)
     // TODO: too big numbers
+    // TODO: move amount without 'm'
+    // TODO: move amount with unsupported trailing character
+    // TODO: verify that multiple calls to execute without setting new script only execute script once
     return 0;
 }

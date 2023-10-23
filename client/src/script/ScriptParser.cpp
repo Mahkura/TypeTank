@@ -131,13 +131,16 @@ void ScriptParser::execute()
                             
                             e.type = UnitMove::Meters;
                             parse_number(token.content, /*out*/e.move_amount);
-                            output_sink->put_event(e);
+                            if (e.move_amount <= 600)
+                                output_sink->put_event(e);
                         }
                     }
                 }
             }
         }
     }
+
+    script_content.clear();
 }
 
 } // namespace tt
