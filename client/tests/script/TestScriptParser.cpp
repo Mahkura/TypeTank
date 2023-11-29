@@ -13,6 +13,7 @@ struct Fixture
 
     Fixture()
     {
+        sut.register_input(sink);
         sut.output_sink = &sink;
         sink.register_queue<tt::UnitId, tt::UnitMove>(
             &output_queue);
@@ -25,7 +26,9 @@ struct Fixture
 
     void set_script_content(std::string script)
     {
-        sut.script_content = script;
+        sink.put_event(tt::ScriptChanged{
+            .script_content = std::make_shared<std::string>(script)
+        });
     }
 };
 
@@ -58,5 +61,7 @@ int main(int argc, char** argv)
     // TODO: move amount without 'm'
     // TODO: move amount with unsupported trailing character
     // TODO: verify that multiple calls to execute without setting new script only execute script once
+    // TODO: if multiple script changes only last one is parsed
+    // TODO: report error locations (row, col)
     return 0;
 }

@@ -32,12 +32,14 @@ target_compile_features(tt_event PUBLIC cxx_std_20)
 target_include_directories(tt_event PUBLIC src)
 
 add_library(tt_script STATIC
+    src/script/FileFollower.cpp
     src/script/ScriptParser.cpp)
 target_compile_features(tt_script PUBLIC cxx_std_20)
 target_include_directories(tt_script PUBLIC src)
 target_link_libraries(tt_script PUBLIC tt_event)
 
 add_library(tt_logic STATIC
+    src/logic/CoreLogic.cpp
     src/logic/DummyLogic.cpp)
 target_compile_features(tt_logic PUBLIC cxx_std_20)
 target_include_directories(tt_logic PUBLIC src)
@@ -77,3 +79,9 @@ target_include_directories(test_scriptparser PRIVATE tests)
 target_link_libraries(test_scriptparser PRIVATE tt_script)
 
 add_test(NAME ScriptParser COMMAND test_scriptparser)
+
+add_executable(test_corelogic tests/logic/TestCoreLogic.cpp)
+target_include_directories(test_corelogic PRIVATE tests)
+target_link_libraries(test_corelogic PRIVATE tt_logic)
+
+add_test(NAME CoreLogic COMMAND test_corelogic)

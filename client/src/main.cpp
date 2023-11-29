@@ -5,6 +5,7 @@
 
 #include <logic/DummyLogic.hpp>
 #include <script/ScriptParser.hpp>
+#include <script/FileFollower.hpp>
 
 int main(int argc, char** argv)
 {
@@ -27,19 +28,20 @@ int main(int argc, char** argv)
     if (!img)
         return -1;
 
-    auto eventSink = tt::EventSink{};
-    auto scriptParser = tt::ScriptParser{ .output_sink = &eventSink };
-    scriptParser.script_content = R"(
-            unit tanky {
-                move 100m
-            }
-        )";
-    auto logic = tt::DummyLogic{ .output_sink = &eventSink };
-    eventSink.register_queue<tt::UnitId, tt::UnitMove, tt::FrameStarted>(
-        /*inout*/&logic.input_queue);
+    auto event_sink = tt::EventSink{};
+    auto file_follower = tt::FileFollower{ .output_sink = &event_sink };
+    if (!file_follower.create_files())
+        return -1;
+
+    auto script_parser = tt::ScriptParser{ .output_sink = &event_sink };
+    script_parser.register_input(event_sink);
+
+    auto connection = tt::DummyLogic{ .output_sink = &event_sink };
+    event_sink.register_queue<tt::UnitId, tt::UnitMove, tt::FrameStarted>(
+        /*inout*/&connection.input_queue);
 
     auto graphics_queue = tt::EventQueue{};
-    eventSink.register_queue<tt::TankMoved>(/*inout*/&graphics_queue);
+    event_sink.register_queue<tt::TankMoved>(/*inout*/&graphics_queue);
 
     auto tank_img_rect = SDL_Rect{
         .x = 0,
@@ -59,10 +61,11 @@ int main(int argc, char** argv)
         }
 
         // TODO: run these for as long as there are events to process
-        scriptParser.execute();
-        logic.execute();
+        file_follower.execute();
+        script_parser.execute();
+        connection.execute();
 
-        // move render logic to own file
+        // TODO: move render logic to own file
         while (!graphics_queue.empty())
         {
             std::visit(
@@ -85,7 +88,7 @@ int main(int argc, char** argv)
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
 
-        eventSink.put_event(tt::FrameStarted{
+        event_sink.put_event(tt::FrameStarted{
             .usec_since_last_frame = 16000 // TODO get this from SDL
         });
     }

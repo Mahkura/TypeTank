@@ -8,8 +8,9 @@ namespace tt
 struct ScriptParser
 {
     EventSink* output_sink;
-    std::string script_content;
+    EventQueue input_queue;
 
+    void register_input(EventSink& sink);
     void execute();
 };
 

@@ -95,9 +95,28 @@ auto parse_number(std::string_view cand, T& out__r) -> char const*
     return cand.data();
 }
 
+void ScriptParser::register_input(EventSink& sink)
+{
+    sink.register_queue<ScriptChanged>(&input_queue);
+}
+
 void ScriptParser::execute()
 {
-    auto script = std::string_view{script_content};
+    if (input_queue.empty())
+        return;
+
+    auto script_content = std::shared_ptr<std::string>{};
+    std::visit(
+        [&](auto &&e) {
+            using T = std::decay_t<decltype(e)>;
+            if constexpr(std::is_same_v<T, ScriptChanged>)
+                script_content = std::move(e.script_content);
+        },
+        input_queue.front());
+    
+    input_queue.pop();
+ 
+    auto script = std::string_view{*script_content};
     auto token = Token{};
     while (read_next_token(/*inout*/script, /*out*/token))
     {
@@ -139,8 +158,6 @@ void ScriptParser::execute()
             }
         }
     }
-
-    script_content.clear();
 }
 
 } // namespace tt
