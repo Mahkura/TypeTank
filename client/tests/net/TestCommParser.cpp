@@ -15,7 +15,10 @@ struct Fixture
     {
         sut.register_input(sink);
         sut.output_sink = &sink;
-        sink.register_queue<tt::TankCreated, tt::TankMoved>(
+        sink.register_queue<
+                tt::TankCreated,
+                tt::TankMoved,
+                tt::Map>(
             &output_queue);
     }
 
@@ -24,38 +27,94 @@ struct Fixture
         sut.execute();
     }
 
-    void send_json(std::string_view json)
+    void send_json(std::string_view json, std::string_view json2 = {})
     {
         if (json.empty())
             throw std::runtime_error("empty test JSON");
 
         // split into as many DataReceived as necessary
-        // put total message size as first 4 bytes
+        // separate messages with \0
         const auto json_size = json.size();
         auto data_received = tt::DataReceived{};
-        data_received.buffer[0] = json_size & 0xFF;
-        data_received.buffer[1] = json_size >> 8 & 0xFF;
-        data_received.buffer[2] = json_size >> 16 & 0xFF;
-        data_received.buffer[3] = json_size >> 24 & 0xFF;
-        const auto count = (sizeof(data_received.buffer) - 4) < json.size() ?
-            (sizeof(data_received.buffer) - 4)
+        const auto count = sizeof(data_received.buffer) < json.size() ?
+            sizeof(data_received.buffer)
             : json.size();
-        memcpy(data_received.buffer + 4, json.data(), count);
-        data_received.len = count + 4;
+        memcpy(data_received.buffer, json.data(), count);
+        data_received.len = count;
         json = json.substr(count);
-        sink.put_event(data_received);
 
         while (!json.empty())
         {
-            auto data_received = tt::DataReceived{};
+            sink.put_event(data_received);
+            data_received = tt::DataReceived{};
             const auto count = sizeof(data_received.buffer) < json.size() ?
                 sizeof(data_received.buffer)
                 : json.size();
             memcpy(data_received.buffer, json.data(), count);
             data_received.len = count;
             json = json.substr(count);
-            sink.put_event(data_received);
         }
+
+        if (data_received.len < sizeof(data_received.buffer))
+        {
+            data_received.buffer[data_received.len] = '\0';
+            data_received.len++;
+        }
+        else
+        {
+            sink.put_event(data_received);
+            data_received = tt::DataReceived{};
+            data_received.buffer[0] = '\0';
+            data_received.len = 1;
+        }
+
+        if (!json2.empty())
+        {
+            if (data_received.len < sizeof(data_received.buffer))
+            {
+                const auto count = (sizeof(data_received.buffer) - data_received.len) < json2.size() ? (sizeof(data_received.buffer) - data_received.len)
+                                                                                                     : json2.size();
+                memcpy(data_received.buffer + data_received.len, json2.data(), count);
+                data_received.len += count;
+                json2 = json2.substr(count);
+            }
+            else
+            {
+                sink.put_event(data_received);
+                data_received = tt::DataReceived{};
+                const auto count = sizeof(data_received.buffer) < json2.size() ? sizeof(data_received.buffer)
+                                                                               : json2.size();
+                memcpy(data_received.buffer, json2.data(), count);
+                data_received.len = count;
+                json2 = json2.substr(count);
+            }
+
+            while (!json2.empty())
+            {
+                sink.put_event(data_received);
+                data_received = tt::DataReceived{};
+                const auto count = sizeof(data_received.buffer) < json2.size() ? sizeof(data_received.buffer)
+                                                                               : json2.size();
+                memcpy(data_received.buffer, json2.data(), count);
+                data_received.len = count;
+                json2 = json2.substr(count);
+            }
+
+            if (data_received.len < sizeof(data_received.buffer))
+            {
+                data_received.buffer[data_received.len] = '\0';
+                data_received.len++;
+            }
+            else
+            {
+                sink.put_event(data_received);
+                data_received = tt::DataReceived{};
+                data_received.buffer[0] = '\0';
+                data_received.len = 1;
+            }
+        }
+
+        sink.put_event(data_received);
     }
 };
 
@@ -95,6 +154,66 @@ int main(int argc, char** argv)
         expect(d.name == "yet another Tank name");
         expect(d.pos_x == 0u);
         expect(d.pos_y == 11u);
+    };
+    "when communication contains multiple messages"_test = []
+    {
+        auto test = Fixture{};
+        test.send_json(R"({
+            "tank_moved": [
+                {
+                    "name": "some Tank name",
+                    "x": 12442, // left upper corned of Tank
+                    "y": 23
+                }
+            ]
+        })");
+        test.send_json(R"({
+            "tank_moved": [
+                {
+                    "name": "yet another Tank name",
+                    "x": 0,
+                    "y": 11
+                }
+            ]
+        })");
+
+        test.execute();
+        expect((test.output_queue.size() == 2) >> fatal);
+        auto d = std::get<tt::TankMoved>(test.output_queue.front());
+        expect(d.name == "some Tank name");
+        test.output_queue.pop();
+        d = std::get<tt::TankMoved>(test.output_queue.front());
+        expect(d.name == "yet another Tank name");
+    };
+    "when communication contains multiple messages in shared messages"_test = []
+    {
+        auto test = Fixture{};
+        test.send_json(R"({
+            "tank_moved": [
+                {
+                    "name": "some Tank name",
+                    "x": 12442, // left upper corned of Tank
+                    "y": 23
+                }
+            ]
+        })",
+        R"({
+            "tank_moved": [
+                {
+                    "name": "yet another Tank name",
+                    "x": 0,
+                    "y": 11
+                }
+            ]
+        })");
+
+        test.execute();
+        expect((test.output_queue.size() == 2) >> fatal);
+        auto d = std::get<tt::TankMoved>(test.output_queue.front());
+        expect(d.name == "some Tank name");
+        test.output_queue.pop();
+        d = std::get<tt::TankMoved>(test.output_queue.front());
+        expect(d.name == "yet another Tank name");
     };
     "when communication contains tankcreated"_test = []
     {
@@ -139,7 +258,20 @@ int main(int argc, char** argv)
         expect(c.width == 25u);
         expect(c.height == 50u);
     };
-    // TODO: test when DataReceived contain both the end of one JSON and the beginning of another JSON
+    "when communication contains map"_test = []
+    {
+        auto test = Fixture{};
+        test.send_json(R"({
+            "map": {
+                "width": 4000,
+                "height": 35698
+            }
+        })");
+
+        test.execute();
+        expect((test.output_queue.size() == 1) >> fatal);
+        auto d = std::get<tt::Map>(test.output_queue.front());
+    };
 
     return 0;
 }

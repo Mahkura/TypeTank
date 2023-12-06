@@ -38,17 +38,7 @@ struct JsonFilter
         if (filter.back() == '[') // object in array removed, does not affect filter
             return;
 
-        auto it_arr = std::find(filter.rbegin() + 1, filter.rend(), '[');
-        const auto dist_arr = std::distance(filter.rbegin(), it_arr);
-        auto it_obj = std::find(filter.rbegin() + 1, filter.rend(), '/');
-        const auto dist_obj = std::distance(filter.rbegin(), it_obj) + 1; // remove object marker
-
-        auto index = dist_arr;
-        if (index > dist_obj)
-            index = dist_obj;
-        
-        index = filter.size() - index; // reverse iterators, calculate index
-        filter.erase(index);
+        filter.erase(filter.end() - 1);
     }
 
     void push_array()
@@ -117,6 +107,10 @@ struct JsonParser
     std::optional<uint8_t> created_height;
     bool created_owned = false;
 
+    // Map
+    std::optional<uint16_t> map_width;
+    std::optional<uint16_t> map_height;
+
     void try_put_tank_moved()
     {
         if (tank_name.has_value() && x.has_value() && y.has_value())
@@ -165,6 +159,24 @@ struct JsonParser
         created_owned = false;
     }
 
+    void try_put_map()
+    {
+        if (map_width.has_value() &&
+            map_height.has_value())
+        {
+            sink->put_event(Map{
+                .width_m = map_width.value(),
+                .height_m = map_height.value(),
+            });
+        }
+    }
+
+    void reset_map()
+    {
+        map_width.reset();
+        map_height.reset();
+    }
+
     bool Null()
     {
         filter.pop_value();
@@ -199,6 +211,10 @@ struct JsonParser
             created_width = i;
         else if (filter == "/tank_created[height")
             created_height = i;
+        else if (filter == "/map/width")
+            map_width = i;
+        else if (filter == "/map/height")
+            map_height = i;
 
         filter.pop_value();
         return true;
@@ -248,6 +264,11 @@ struct JsonParser
         {
             try_put_tank_created();
             reset_tank_created();
+        }
+        if (filter == "/map/")
+        {
+            try_put_map();
+            reset_map();
         }
 
         filter.pop_object();
@@ -317,35 +338,39 @@ void CommParser::execute()
                 using T = std::decay_t<decltype(e)>;
                 if constexpr(std::is_same_v<T, DataReceived>)
                 {
-                    if (expected_buffer_size == 0)
-                    {
-                        expected_buffer_size = (e.buffer[3] << 24) 
-                            + (e.buffer[2] << 16)
-                            + (e.buffer[1] << 8)
-                            + e.buffer[0];
+                    buffer.reserve(buffer.size() + e.len);
 
-                        buffer.reserve(expected_buffer_size);
-                        buffer.append(e.buffer + 4, &e.buffer[e.len]);
-                    }
-                    else
+                    auto contains_null = false;
+                    auto i = 0;
+                    do
                     {
-                        buffer.append(e.buffer, &e.buffer[e.len]);
-                        // TODO: handle bytes after expected_buffer_size
-                    }
+                        contains_null = false;
+                        for (; i < e.len; ++i)
+                        {
+                            if ('\0' == e.buffer[i])
+                            {
+                                contains_null = true;
+                                ++i;
+                                break;
+                            }
+                            else
+                                buffer.push_back(e.buffer[i]);
+                        }
 
-                    if (buffer.size() == expected_buffer_size)
-                    {
-                        auto stream = StringViewStream{
-                            .index = 0,
-                            .buffer = buffer,
-                        };
-                        auto handler = JsonParser{
-                            .sink = output_sink
-                        };
-                        auto reader = rapidjson::Reader{};
-                        reader.Parse<rapidjson::kParseCommentsFlag>(stream, handler);
-                        expected_buffer_size = 0; // TODO  test for this
+                        if (contains_null)
+                        {
+                            auto stream = StringViewStream{
+                                .index = 0,
+                                .buffer = buffer,
+                            };
+                            auto handler = JsonParser{
+                                .sink = output_sink};
+                            auto reader = rapidjson::Reader{};
+                            reader.Parse<rapidjson::kParseCommentsFlag>(stream, handler);
+                            buffer.resize(0);
+                        }
                     }
+                    while (contains_null);
                 }
             },
             input_queue.front());
