@@ -8,10 +8,16 @@
 #include "ScriptChanged.hpp"
 #include "Map.hpp"
 #include "Graphics.hpp"
+#include "Communication.hpp"
 
 namespace tt
 {
 using Event = std::variant<
+    Connect,
+    Connected,
+    Disconnected,
+    DataReceived,
+    SendData,
     FrameStarted,
     UnitId,
     UnitMove,

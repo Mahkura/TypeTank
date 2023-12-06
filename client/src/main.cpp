@@ -6,6 +6,7 @@
 #include <logic/DummyLogic.hpp>
 #include <script/ScriptParser.hpp>
 #include <script/FileFollower.hpp>
+#include <net/Connection.hpp>
 
 int main(int argc, char** argv)
 {
@@ -36,9 +37,9 @@ int main(int argc, char** argv)
     auto script_parser = tt::ScriptParser{ .output_sink = &event_sink };
     script_parser.register_input(event_sink);
 
-    auto connection = tt::DummyLogic{ .output_sink = &event_sink };
-    event_sink.register_queue<tt::UnitId, tt::UnitMove, tt::FrameStarted>(
-        /*inout*/&connection.input_queue);
+    auto connection = tt::Connection{.output_sink = &event_sink };
+    connection.register_input(event_sink);
+    connection.init();
 
     auto graphics_queue = tt::EventQueue{};
     event_sink.register_queue<tt::TankMoved>(/*inout*/&graphics_queue);
@@ -49,6 +50,11 @@ int main(int argc, char** argv)
         .w = 30,
         .h = 54,
     };
+
+    event_sink.put_event(tt::Connect{
+        .url = "127.0.0.1",
+        .port = 8080,
+    });
 
     SDL_Event e;
     bool running = true;
@@ -95,6 +101,8 @@ int main(int argc, char** argv)
 
     SDL_DestroyTexture(img);
     SDL_DestroyWindow(window);
+
+    connection.close();
 
     SDLNet_Quit();
     TTF_Quit();

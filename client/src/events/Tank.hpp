@@ -6,7 +6,7 @@ namespace tt
 {
 struct TankCreated
 {
-    enum Flags
+    enum Flags : unsigned
     {
         MyTank = 0x1,
     };

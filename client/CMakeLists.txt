@@ -45,8 +45,14 @@ target_compile_features(tt_logic PUBLIC cxx_std_20)
 target_include_directories(tt_logic PUBLIC src)
 target_link_libraries(tt_logic PUBLIC tt_event)
 
+add_library(tt_comms STATIC
+    src/net/CommParser.cpp)
+target_compile_features(tt_comms PUBLIC cxx_std_20)
+target_include_directories(tt_comms PUBLIC src src/utility/rapidjson/include)
+target_link_libraries(tt_comms PUBLIC tt_event)
+
 # TODO: define subsystems as separate libraries and link to exe, so we may create test exes for them
-add_executable(TypeTanks src/main.cpp)
+add_executable(TypeTanks src/main.cpp src/net/Connection.cpp)
 target_compile_features(TypeTanks PUBLIC cxx_std_20)
 
 if (TARGET SDL2::SDL2main)
@@ -61,7 +67,8 @@ target_link_libraries(TypeTanks
         SDL2_net::SDL2_net
         SDL2_ttf::SDL2_ttf
         tt_script
-        tt_logic)
+        tt_logic
+        tt_comms)
 
 # TODO: see if we can copy SDL-related DLLs to build directory so we can run the executable without manually copying shared libraries
 
@@ -85,3 +92,9 @@ target_include_directories(test_corelogic PRIVATE tests)
 target_link_libraries(test_corelogic PRIVATE tt_logic)
 
 add_test(NAME CoreLogic COMMAND test_corelogic)
+
+add_executable(test_comms tests/net/TestCommParser.cpp)
+target_include_directories(test_comms PRIVATE tests)
+target_link_libraries(test_comms PRIVATE tt_comms)
+
+add_test(NAME Comms COMMAND test_comms)
