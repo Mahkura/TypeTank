@@ -65,7 +65,7 @@ void Connection::execute()
     // check for input from socket
     if (socket != NULL)
     {
-        if (SDLNet_CheckSockets(socketset, 0) > 0)
+        while (SDLNet_CheckSockets(socketset, 0) > 0)
         {
             auto received = DataReceived{};
             const auto receive_size = SDLNet_TCP_Recv(socket, received.buffer, sizeof(received.buffer)); 

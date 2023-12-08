@@ -51,6 +51,12 @@ target_compile_features(tt_comms PUBLIC cxx_std_20)
 target_include_directories(tt_comms PUBLIC src src/utility/rapidjson/include)
 target_link_libraries(tt_comms PUBLIC tt_event)
 
+add_library(tt_graphics STATIC
+    src/graphics/Graphics.cpp)
+target_compile_features(tt_graphics PUBLIC cxx_std_20)
+target_include_directories(tt_graphics PUBLIC src src/utility/rapidjson/include)
+target_link_libraries(tt_graphics PUBLIC tt_event SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2::SDL2)
+
 # TODO: define subsystems as separate libraries and link to exe, so we may create test exes for them
 add_executable(TypeTanks src/main.cpp src/net/Connection.cpp)
 target_compile_features(TypeTanks PUBLIC cxx_std_20)
@@ -63,12 +69,11 @@ endif()
 target_link_libraries(TypeTanks
     PRIVATE 
         SDL2::SDL2
-        SDL2_image::SDL2_image
         SDL2_net::SDL2_net
-        SDL2_ttf::SDL2_ttf
         tt_script
         tt_logic
-        tt_comms)
+        tt_comms
+        tt_graphics)
 
 # TODO: see if we can copy SDL-related DLLs to build directory so we can run the executable without manually copying shared libraries
 
@@ -98,3 +103,10 @@ target_include_directories(test_comms PRIVATE tests)
 target_link_libraries(test_comms PRIVATE tt_comms)
 
 add_test(NAME Comms COMMAND test_comms)
+
+add_executable(run_graphics tests/graphics/RunGraphics.cpp)
+target_link_libraries(run_graphics PRIVATE tt_graphics)
+
+if (TARGET SDL2::SDL2main)
+    target_link_libraries(run_graphics PRIVATE SDL2::SDL2main)
+endif()

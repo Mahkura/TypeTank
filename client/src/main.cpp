@@ -7,6 +7,8 @@
 #include <script/ScriptParser.hpp>
 #include <script/FileFollower.hpp>
 #include <net/Connection.hpp>
+#include <net/CommParser.hpp>
+#include <graphics/Graphics.hpp>
 
 int main(int argc, char** argv)
 {
@@ -20,19 +22,22 @@ int main(int argc, char** argv)
         "TypeTank",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         300, 300,
-        SDL_WINDOW_SHOWN);
-    auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+        SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
-
-    auto img = IMG_LoadTexture(renderer, "tank.svg");
-    if (!img)
-        return -1;
 
     auto event_sink = tt::EventSink{};
     auto file_follower = tt::FileFollower{ .output_sink = &event_sink };
     if (!file_follower.create_files())
         return -1;
+
+    auto graphics = tt::Graphics{
+        .output_sink = &event_sink,
+        .renderer = renderer,
+        .window_resolution = { .width = 300, .height = 300 }
+    };
+    graphics.register_queue(event_sink);
 
     auto script_parser = tt::ScriptParser{ .output_sink = &event_sink };
     script_parser.register_input(event_sink);
@@ -41,15 +46,11 @@ int main(int argc, char** argv)
     connection.register_input(event_sink);
     connection.init();
 
+    auto comms_parser = tt::CommParser{ .output_sink = &event_sink };
+    comms_parser.register_input(event_sink);
+
     auto graphics_queue = tt::EventQueue{};
     event_sink.register_queue<tt::TankMoved>(/*inout*/&graphics_queue);
-
-    auto tank_img_rect = SDL_Rect{
-        .x = 0,
-        .y = 0,
-        .w = 30,
-        .h = 54,
-    };
 
     event_sink.put_event(tt::Connect{
         .url = "127.0.0.1",
@@ -70,6 +71,8 @@ int main(int argc, char** argv)
         file_follower.execute();
         script_parser.execute();
         connection.execute();
+        comms_parser.execute();
+        graphics.execute();
 
         // TODO: move render logic to own file
         while (!graphics_queue.empty())
@@ -78,28 +81,21 @@ int main(int argc, char** argv)
                 [&](auto &&e)
                 {
                     using T = std::decay_t<decltype(e)>;
-                    if constexpr (std::is_same_v<T, tt::TankMoved>)
+                    if constexpr (std::is_same_v<T, tt::RenderDone>)
                     {
-                        tank_img_rect.x = e.pos_x;
-                        tank_img_rect.y = e.pos_y;
+                        SDL_Delay(16);
+
+                        event_sink.put_event(tt::FrameStarted{
+                            .usec_since_last_frame = 16000 // TODO get this from SDL
+                        });
                     }
                 },
                 graphics_queue.front());
 
             graphics_queue.pop();
         }
-
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, img, nullptr, &tank_img_rect);
-        SDL_RenderPresent(renderer);
-        SDL_Delay(16);
-
-        event_sink.put_event(tt::FrameStarted{
-            .usec_since_last_frame = 16000 // TODO get this from SDL
-        });
     }
 
-    SDL_DestroyTexture(img);
     SDL_DestroyWindow(window);
 
     connection.close();

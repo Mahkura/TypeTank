@@ -24,10 +24,12 @@ using Event = std::variant<
     TankCreated,
     TankMoved,
     Map,
-    SetPixelRatio,
     RequiresImg,
     DrawImg,
     Present,
+    RenderDone,
+    CreateCamera,
+    MoveCamera,
     ScriptChanged>;
 using EventQueue = std::queue<Event>;
 

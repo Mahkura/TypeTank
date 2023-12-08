@@ -15,7 +15,6 @@ struct Fixture
     {
         sut.register_queue(/*inout*/sink);
         sink.register_queue<
-            tt::SetPixelRatio,
             tt::DrawImg,
             tt::RequiresImg,
             tt::Present>(
