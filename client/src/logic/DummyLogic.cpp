@@ -10,10 +10,17 @@ void DummyLogic::execute()
     {
         initialized = true;
         tank_name = "tanky";
+
+        output_sink->put_event(Map{
+            .width_m = 1000,
+            .height_m = 1000,
+        });
+
         output_sink->put_event(TankCreated{
             .name = tank_name,
-            .pos_x = x,
-            .pos_y = y,
+            .flags = TankCreated::MyTank,
+            .pos_dm = tank_pos_dm,
+            .size_dm = { .width = 30, .height = 55 },
         });
         return;
     }
@@ -43,23 +50,27 @@ void DummyLogic::execute()
 void DummyLogic::save_velocity(UnitMove e)
 {
     if (e.unit_id == tank.unit_id)
-        target_x = x + (e.move_amount * 100);
+    {
+        target_pos_dm = {
+            .x = tank_pos_dm.x,
+            .y = (uint16_t)(tank_pos_dm.y + (e.move_amount * 10)),
+        };
+    }
 }
 
 void DummyLogic::move_tank(FrameStarted e)
 {
-    if (x == target_x)
+    if (tank_pos_dm.y == target_pos_dm.y)
         return;
 
-    auto move_x = vel_x * e.usec_since_last_frame / 1'000'000;
-    x += move_x;
-    if (x > target_x)
-        x = target_x;
+    auto move_y = vel_y * e.usec_since_last_frame / 1'000'000;
+    tank_pos_dm.y += move_y;
+    if (tank_pos_dm.y > target_pos_dm.y)
+        tank_pos_dm.y = target_pos_dm.y;
 
     output_sink->put_event(TankMoved{
         .name = tank_name,
-        .pos_x = uint16_t(x / 100),
-        .pos_y = uint16_t(y / 100),
+        .pos_dm = tank_pos_dm,
     });
 }
 

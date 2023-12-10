@@ -1,5 +1,5 @@
 #pragma once
-#include <cstdint>
+#include <common/Units.hpp>
 #include <string>
 
 namespace tt
@@ -12,16 +12,13 @@ struct TankCreated
     };
     std::string name;
     uint32_t flags;
-    uint16_t pos_x;
-    uint16_t pos_y;
-    uint16_t width;
-    uint16_t height;
+    PointU16 pos_dm;
+    Size16 size_dm;
 };
 
 struct TankMoved
 {
     std::string name;
-    uint16_t pos_x;
-    uint16_t pos_y;
+    PointU16 pos_dm;
 };
 } // namespace tt

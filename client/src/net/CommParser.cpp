@@ -117,8 +117,7 @@ struct JsonParser
         {
             sink->put_event(TankMoved{
                 .name = tank_name.value(),
-                .pos_x = x.value(),
-                .pos_y = y.value()
+                .pos_dm = { .x = x.value(), .y = y.value() },
             });
         }
     }
@@ -141,10 +140,8 @@ struct JsonParser
             sink->put_event(TankCreated{
                 .name = created_tank_name.value(),
                 .flags = created_owned * TankCreated::Flags::MyTank,
-                .pos_x = created_x.value(),
-                .pos_y = created_y.value(),
-                .width = created_width.value(),
-                .height = created_height.value(),
+                .pos_dm = { .x = created_x.value(), .y = created_y.value(), },
+                .size_dm = { .width = created_width.value(), .height = created_height.value(), },
             });
         }
     }

@@ -147,13 +147,13 @@ int main(int argc, char** argv)
         expect((test.output_queue.size() == 2) >> fatal);
         auto d = std::get<tt::TankMoved>(test.output_queue.front());
         expect(d.name == "some Tank name");
-        expect(d.pos_x == 12442u);
-        expect(d.pos_y == 23u);
+        expect(d.pos_dm.x == 12442u);
+        expect(d.pos_dm.y == 23u);
         test.output_queue.pop();
         d = std::get<tt::TankMoved>(test.output_queue.front());
         expect(d.name == "yet another Tank name");
-        expect(d.pos_x == 0u);
-        expect(d.pos_y == 11u);
+        expect(d.pos_dm.x == 0u);
+        expect(d.pos_dm.y == 11u);
     };
     "when communication contains multiple messages"_test = []
     {
@@ -162,7 +162,7 @@ int main(int argc, char** argv)
             "tank_moved": [
                 {
                     "name": "some Tank name",
-                    "x": 12442, // left upper corned of Tank
+                    "x": 12442,
                     "y": 23
                 }
             ]
@@ -192,7 +192,7 @@ int main(int argc, char** argv)
             "tank_moved": [
                 {
                     "name": "some Tank name",
-                    "x": 12442, // left upper corned of Tank
+                    "x": 12442,
                     "y": 23
                 }
             ]
@@ -222,7 +222,7 @@ int main(int argc, char** argv)
             "tank_moved": [
                 {
                     "name": "some Tank name",
-                    "x": 12442, // left upper corned of Tank
+                    "x": 12442,
                     "y": 23
                 }
             ],
@@ -247,16 +247,16 @@ int main(int argc, char** argv)
         expect((test.output_queue.size() == 2) >> fatal);
         auto d = std::get<tt::TankMoved>(test.output_queue.front());
         expect(d.name == "some Tank name");
-        expect(d.pos_x == 12442u);
-        expect(d.pos_y == 23u);
+        expect(d.pos_dm.x == 12442u);
+        expect(d.pos_dm.y == 23u);
         test.output_queue.pop();
         auto c = std::get<tt::TankCreated>(test.output_queue.front());
         expect(c.name == "new Tank");
         expect(c.flags == tt::TankCreated::MyTank);
-        expect(c.pos_x == 500u);
-        expect(c.pos_y == 250u);
-        expect(c.width == 25u);
-        expect(c.height == 50u);
+        expect(c.pos_dm.x == 500u);
+        expect(c.pos_dm.y == 250u);
+        expect(c.size_dm.width == 25u);
+        expect(c.size_dm.height == 50u);
     };
     "when communication contains map"_test = []
     {
