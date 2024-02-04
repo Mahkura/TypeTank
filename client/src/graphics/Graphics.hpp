@@ -20,7 +20,7 @@ struct Graphics
     {
         uint32_t id;
         uint32_t texture_id;
-        Size16 world_size;
+        Size world_size;
     };
 
     struct ScreenSpaceImg

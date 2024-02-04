@@ -7,7 +7,7 @@ set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 if(TypeTanks_VENDORED)
-    add_subdirectory(vendored/sdl)
+    add_subdirectory(vendored/sdl EXCLUDE_FROM_ALL)
     set(SDL2IMAGE_VENDORED ON CACHE BOOL "Use all SDL libraries as vendored")
     set(SDL2IMAGE_SAMPLES OFF CACHE BOOL "No need to build samples")
     set(SDL2IMAGE_INSTALL OFF CACHE BOOL "No need to install anywhere when we build it here anyway")

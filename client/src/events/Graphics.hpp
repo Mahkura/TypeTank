@@ -11,7 +11,7 @@ struct RequiresImg
     std::string img_path;
     uint32_t id;
     Size16 pixel_size;
-    Size16 world_size;
+    Size world_size;
 };
 
 struct DrawImg

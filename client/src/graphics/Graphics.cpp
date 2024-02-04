@@ -104,12 +104,12 @@ void Graphics::draw_images()
 
         // skip if image outside camera (TODO: fix for rotated images)
         auto img_left_top = Point{
-            .x = img.world_coordinate.x - it_loaded->world_size.width/2,
-            .y = img.world_coordinate.y + it_loaded->world_size.height/2,
+            .x = img.world_coordinate.x - (int32_t)(it_loaded->world_size.width/2),
+            .y = img.world_coordinate.y + (int32_t)(it_loaded->world_size.height/2),
         };
         auto img_right_bottom = Point{
-            .x = img_left_top.x + it_loaded->world_size.width,
-            .y = img_left_top.y - it_loaded->world_size.height,
+            .x = img_left_top.x + (int32_t)(it_loaded->world_size.width),
+            .y = img_left_top.y - (int32_t)(it_loaded->world_size.height),
         };
 
         if (img_right_bottom.x < camera_top_left.x ||
